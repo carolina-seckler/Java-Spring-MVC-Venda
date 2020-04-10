@@ -1,5 +1,7 @@
 package br.edu.infnet.vendamvc.controle;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,20 +31,12 @@ public class VendaController {
 	@Autowired
 	private ClienteService clienteService;
 	@Autowired
-	private TecidoService tecidoService;
-	@Autowired
-	private CartonagemService cartonagemService;
-	@Autowired
-	private HibridoService hibridoService;
-	@Autowired
 	private ProdutoService produtoService;
 	
 	@RequestMapping(value = "/venda", method = RequestMethod.GET)
 	public String showDetalhe(Model model) {
 		model.addAttribute("clientesLista", clienteService.obterLista());
-		model.addAttribute("tecidosLista", tecidoService.obterDisponiveis());
-		model.addAttribute("cartonagensLista", cartonagemService.obterDisponiveis());
-		model.addAttribute("hibridosLista", hibridoService.obterDisponiveis());
+		model.addAttribute("produtosLista", produtoService.obterDisponiveis());
 		return "venda/detalhe";
 	}
 	
@@ -72,6 +66,11 @@ public class VendaController {
 	@RequestMapping(value = "/venda/excluir/{id}", method = RequestMethod.GET)
 	public String excluir(Model model, @PathVariable Integer id) {
 		
+		Optional<Venda> venda = service.obterPorId(id);
+		for (Produto produto : venda.get().getProdutos()) {
+			produto.setVenda(null);
+			produtoService.atualizar(produto);
+		}
 		service.excluir(id);
 		
 		return this.obterLista(model);

@@ -29,25 +29,15 @@
 		</div>
 		
 		<div>
-		  	<c:if test="${tecidosLista.size() gt 0 or cartonagensLista.size() gt 0 or hibridosLista.size() gt 0}">
+		  	<c:if test="${produtosLista.size() gt 0}">
 		  		<label>Produtos:</label>
-		    	<c:forEach var="tecido" items="${tecidosLista}">
+		    	<c:forEach var="produto" items="${produtosLista}">
 			  		<div class="container">
-						<input type="checkbox" name="produtos" value="${tecido.id}"> ${tecido}
-			  		</div>
-		  		</c:forEach>
-		  		<c:forEach var="cartonagem" items="${cartonagensLista}">
-			  		<div class="container">
-						<input type="checkbox" name="produtos" value="${cartonagem.id}"> ${cartonagem}
-			  		</div>
-		  		</c:forEach>
-		  		<c:forEach var="hibrido" items="${hibridosLista}">
-			  		<div class="container">
-						<input type="checkbox" name="produtos" value="${hibrido.id}"> ${hibrido}
+						<input type="checkbox" name="produtos" value="${produto.id}"> ${produto}
 			  		</div>
 		  		</c:forEach>
 	   		</c:if>
-	   	  	<c:if test="${tecidosLista.size() le 0 and cartonagensLista.size() le 0 and hibridosLista.size() le 0}">
+	   	  	<c:if test="${produtosLista.size() le 0}">
 	      		<label>Nenhum produto disponível para venda!</label>
 	       	</c:if>
 		</div>
